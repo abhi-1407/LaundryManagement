@@ -5,7 +5,8 @@ function checkLogin(req, res, next) {
     let pas = req.body.password;
     // console.log(r);
     // console.log(pas);
-
+    // let r='Mangla';
+    // let pas='123456';
     const selectUsers = `SELECT * from officials WHERE name= '${r}' and password = '${pas}'`;
     connection.query(selectUsers, (error, results, fields) => {
         // console.log(error);

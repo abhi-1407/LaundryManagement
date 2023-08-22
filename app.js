@@ -75,7 +75,9 @@ app.get("/", (req, res) => {
     res.render('signin');
 });
 app.post("/",checkLogin,(req, res) => {
+    console.log('out post');
     if(req.allowUser==true){
+        console.log('in post');
       res.render('index',{ orderresult: porders });
     }
     else{
