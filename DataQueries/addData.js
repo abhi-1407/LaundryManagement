@@ -6,6 +6,7 @@ async function addData(na,pas) {
     try {
         await connection.query(insertStatement);
         console.log('Data inserted successfully.');
+        next();
     } catch (error) {
         console.error('Error inserting data:', error);
     }

@@ -2,78 +2,60 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
 
-app.use(express.static("public"));
-app.set("view engine", "ejs");
 
 const getDateTime = require("./public/getDateTime.js");
 const {addData} = require(__dirname+'/DataQueries/addData.js');
 const {checkLogin} = require(__dirname+'/DataQueries/checkLogin.js');
-const {displayUserData} = require(__dirname+'/DataQueries/displayUserData.js');
 const {addOrderData} = require(__dirname+'/DataQueries/addOrders.js');
 const {getOrders} = require(__dirname+'/DataQueries/getOrders.js');
 const {checkorder} = require(__dirname+'/DataQueries/checkorder.js');
 const {deleteorder} = require(__dirname+'/DataQueries/deleteorder.js');
-const porders = [
-    // {
-    //     date: '0',
-    //     time: '0',
-    //     numItems: 0,
-    //     Bedsheet: 0,
-    //     Jean: 0,
-    //     Tshirt: 0,
-    //     shirt: 0
-    // }
-];
+const porders = [];
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('public'));
 app.set('view engine', 'ejs');
 
 app.get("/checkorder", (req, res) => {
-    // displayUserData();
     res.render('Checkorder');
 });
-app.post("/check", checkorder, (req, res) => {
-    console.log('hello');
-        var orderresult=req.orderresult;
-        console.log(req.orderresult);
-        res.render('index', {orderresult});
 
+app.post("/check",checkorder,(req, res) => {
+    var orderresult=req.orderresult;
+    //console.log(req.orderresult);
+    res.render('index', {orderresult});
 });
 
 app.get("/deleteorder", deleteorder, (req, res) => {
     res.render('deleteorder');
 });
-app.post("/deleteorder", deleteorder, (req, res) => {
-    var orderresult=[];
-    res.render('index', {orderresult});
-});
 
+app.post("/deleteorder", deleteorder, (req, res) => {
+    res.render('Checkorder');
+});
 
 app.get("/newUser", (req, res) => {
     res.render('pages-sign-up');
 });
+
 app.get("/home", (req, res) => {
     res.render('index',{orderresult: porders});
 });
+
 app.post("/home", (req, res) => {
     res.render('index',{orderresult: porders});
 });
-
-app.post("/newUser", async (req, res) => {
-    // console.log(req.body.userid, req.body.password);
+ 
+app.post("/newUser",  (req, res) => {
     addData(req.body.userid,req.body.password);
     res.redirect('/');
 });
 
-// app.get("/", (req, res) => {
-//     console.log('/ route');
-//     res.render('index', { orderresult: porders });
-// });
 app.get("/", (req, res) => {
     console.log('/ route');
     res.render('signin');
 });
+
 app.post("/",checkLogin,(req, res) => {
     console.log('out post');
     if(req.allowUser==true){
@@ -85,7 +67,8 @@ app.post("/",checkLogin,(req, res) => {
     }
 
 });
-app.post("/postOrders", (req, res) => {
+
+app.post("/orders", (req, res) => {
     const data = {
         userID: req.body.userID,
         date: getDateTime.getCurrentDate(),
