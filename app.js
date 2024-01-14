@@ -82,11 +82,11 @@ app.post("/orders", (req, res) => {
     console.log(data);
     addOrderData(data.userID, data.date, data.time, data.Jean, data.shirt, data.Tshirt, data.Bedsheet);
 
-    res.render('postOrders');
+    res.render('orders');
 });
 
 app.get("/orders", (req, res) => {
-    res.render('postOrders');
+    res.render('orders');
 });
 
 const PORT = process.env.PORT || 8000;
